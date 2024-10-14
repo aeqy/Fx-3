@@ -21,3 +21,20 @@
     POST /connect/token 
     ontent-Type: application/x-www-form-urlencoded
     grant_type=password&username=admin&password=Admin@123&client_id=my-client
+
+
+---
+## 提交类型指定为下面其中一个：
+
+
+| 提交类型 | 描述说明 |
+|----------|----------|
+| `build`  | 对构建系统或者外部依赖项进行了修改 |
+| `chore`  | 对构建过程或辅助工具和库的更改 |
+| `ci`     | 对CI配置文件或脚本进行了修改 |
+| `docs`   | 对文档进行了修改 |
+| `feat`   | 增加新的特征 |
+| `fix`    | 修复bug |
+| `pref`   | 提高性能的代码更改 |
+| `refactor`| 既不是修复bug也不是添加特征的代码重构 |
+| `style`  | 不影响代码含义的修改，比如空格、格式化、缺失的分

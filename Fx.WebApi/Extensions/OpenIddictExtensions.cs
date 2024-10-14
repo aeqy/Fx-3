@@ -27,27 +27,36 @@ public static class OpenIddictExtensions
                     .AllowAuthorizationCodeFlow() // 允许授权码流
                     .AllowRefreshTokenFlow() // 允许刷新令牌
                     .SetTokenEndpointUris("/connect/token") // 设置 Token 端点
-                    .SetAuthorizationEndpointUris("/connect/authorize");  // 设置授权端点
-                
+                    .SetAuthorizationEndpointUris("/connect/authorize"); // 设置授权端点
+
                 options.RegisterScopes(OpenIddictConstants.Scopes.Email, OpenIddictConstants.Scopes.Profile);
 
                 // 开发环境使用自签名证书
                 // .AddDevelopmentEncryptionCertificate()
                 // .AddDevelopmentSigningCertificate();
-                    
+
                 // 自签证书, 生产环境请使用正式证书
                 options.AddSigningCertificate(certificate);
                 options.AddEncryptionCertificate(certificate);
 
                 options.UseAspNetCore()
-                    .EnableTokenEndpointPassthrough();  // 通过 API 直接处理请求
-                    // .EnableAuthorizationEndpointPassthrough();
+                    .EnableTokenEndpointPassthrough(); // 通过 API 直接处理请求
+                // .EnableAuthorizationEndpointPassthrough();
+
+                // 限制返回的声明
+                options.SetAccessTokenLifetime(TimeSpan.FromMinutes(30)) // 访问令牌有效期30分钟
+                    .SetRefreshTokenLifetime(TimeSpan.FromDays(6)); // 刷新令牌有效期6天
+
+                // 只包含必要的声明
+                options.DisableAccessTokenEncryption(); // 如果不需要加密访问令牌，可以禁用加密
+
+                // options.UseDataProtection(); // 使用对称加密
             })
             .AddValidation(options =>
             {
                 options.UseLocalServer();
                 options.UseAspNetCore();
             });
-        return  services;
+        return services;
     }
 }
